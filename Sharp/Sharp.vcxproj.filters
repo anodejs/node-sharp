@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="SharpAddon.cpp" />
+    <ClCompile Include="v8external.cpp">
+      <Filter>v8sharp</Filter>
+    </ClCompile>
+    <ClCompile Include="v8function.cpp">
+      <Filter>v8sharp</Filter>
+    </ClCompile>
+    <ClCompile Include="v8value.cpp">
+      <Filter>v8sharp</Filter>
+    </ClCompile>
+    <ClCompile Include="v8wrap.cpp">
+      <Filter>v8sharp</Filter>
+    </ClCompile>
+    <ClCompile Include="WrapAssembly.cpp">
+      <Filter>wrap</Filter>
+    </ClCompile>
+    <ClCompile Include="WrapInstance.cpp">
+      <Filter>wrap</Filter>
+    </ClCompile>
+    <ClCompile Include="MatchType.cpp">
+      <Filter>wrap</Filter>
+    </ClCompile>
+    <ClCompile Include="SharpLibHelper.cpp" />
+    <ClCompile Include="WrapBase.cpp">
+      <Filter>wrap</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="v8wrap.h">
+      <Filter>v8sharp</Filter>
+    </ClInclude>
+    <ClInclude Include="v8external.h">
+      <Filter>v8sharp</Filter>
+    </ClInclude>
+    <ClInclude Include="v8function.h">
+      <Filter>v8sharp</Filter>
+    </ClInclude>
+    <ClInclude Include="v8value.h">
+      <Filter>v8sharp</Filter>
+    </ClInclude>
+    <ClInclude Include="WrapAssembly.h">
+      <Filter>wrap</Filter>
+    </ClInclude>
+    <ClInclude Include="WrapInstance.h">
+      <Filter>wrap</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchType.h">
+      <Filter>wrap</Filter>
+    </ClInclude>
+    <ClInclude Include="SharpLibHelper.h" />
+    <ClInclude Include="WrapBase.h">
+      <Filter>wrap</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="v8sharp">
+      <UniqueIdentifier>{f19d441d-6676-4dcd-b8b1-f818a6dd9cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="wrap">
+      <UniqueIdentifier>{6521fba0-c33c-4757-b81a-0cb2d36ea3af}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

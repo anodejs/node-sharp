@@ -5,6 +5,7 @@
 #include "v8value.h"
 #include "v8external.h"
 #include "v8function.h"
+#include "v8wrap.h"
 
 using namespace System::Collections::Generic;
 
@@ -60,6 +61,8 @@ namespace v8sharp
 
     v8::Handle<v8::Value> V8Interop::ToV8(Object^ value) 
     {
+        static gcroot<Type^> GenericList = List<int>::typeid->GetGenericTypeDefinition();
+
         if (value != nullptr) 
         {
             Type^ type = value->GetType();
@@ -91,9 +94,17 @@ namespace v8sharp
             {
                 return ToV8Function(safe_cast<Delegate^>(value));
             } 
-            else 
+            else if (type->IsGenericType && type->GetGenericTypeDefinition()->IsAssignableFrom(GenericList))
             {
-                return ToV8External(value);
+                // an expensive method of making lists into arrays.
+                System::Reflection::MethodInfo^ toArray = type->GetMethod("ToArray");
+                System::Object^ result = toArray->Invoke(value, gcnew array<Object^>{});
+                return ToV8Array(safe_cast<Array^>(result));
+            }
+            else
+            {
+                return ToV8Wrap(value);
+                //return ToV8External(value);
             }
         }
 
@@ -213,6 +224,11 @@ namespace v8sharp
             {
                 return FromV8External(internalField);
             }
+
+            if (V8ObjectWrapper::IsObjectWrapper(obj))
+            {
+                return V8ObjectWrapper::Unwrap(obj);
+            }
         }
 
         v8::Local<v8::Array> names = obj->GetPropertyNames();
@@ -256,6 +272,14 @@ namespace v8sharp
 
                 obj->Set(key, val);
             }
+            
+            for each(System::Reflection::FieldInfo^ prop in value->GetType()->GetFields()) 
+            {
+                v8::Handle<v8::Value> key = ToV8(prop->Name);
+                v8::Handle<v8::Value> val = ToV8(prop->GetValue(value));
+
+                obj->Set(key, val);
+            }
         }
 
         return obj;
@@ -270,6 +294,11 @@ namespace v8sharp
     v8::Handle<v8::Value> V8Interop::ToV8External(Object^ value) 
     {
         V8ExternalWrapper* wrapper = V8ExternalWrapper::Create(value);
-        return v8::External::New((void*)wrapper);
+        return v8::External::Wrap((void*)wrapper);
+    }
+    
+    v8::Handle<v8::Value> V8Interop::ToV8Wrap(Object^ value) 
+    {
+        return V8ObjectWrapper::Wrap(value);
     }
 }

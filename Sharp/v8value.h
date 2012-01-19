@@ -53,5 +53,7 @@ namespace v8sharp
         static System::Object^ FromV8External(v8::Handle<v8::Value> value);
 
         static v8::Handle<v8::Value> ToV8External(Object^ value);
+
+        static v8::Handle<v8::Value> ToV8Wrap(Object^ value);
     };
 }

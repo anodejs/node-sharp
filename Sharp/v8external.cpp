@@ -3,6 +3,7 @@
 // View the project and the latest code at http://v8sharp.codeplex.com/
 
 #include "v8external.h"
+#include <node.h>
 
 V8ExternalWrapper::~V8ExternalWrapper() 
 {
