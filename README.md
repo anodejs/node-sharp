@@ -2,29 +2,29 @@
 This is a native nodejs extension which allows us to load dot-net assemblies, create objects and call methods on them.
 
 ## Based upon
-[saary's node dotnet](https://github.com/saary/node.net) and [v8sharp](http://v8sharp.codeplex.com/)
+[saary's node.net](https://github.com/saary/node.net) and [v8sharp](http://v8sharp.codeplex.com/)
 
 ## The interface
 Instantiate the module, load a dll and create a class.  Currently it searches the active directory of the node process for assemblies.
 
-'''javascript
+```javascript
 var sharp = require('./Sharp').Sharp();
 var stub = sharp.load('StubClass.dll');
 var oc = stub.new('StubClass.Output');
-'''
+```
 
 Then the class exposes all methods for synchronous and asynchronous callbacks.
 
-'''javascript
+```javascript
 var list = oc.call('ReturnList');
 // list = [17, 6, 81]  // some random set of integers
-'''
+```
 
-'''javascript
+```javascript
 oc.async('ReturnObject', function(err, data){ 
     console.dir(data); 
 });
-'''
+```
 
 There is also a .methods() call to return a list of callable method names.  
 
@@ -36,17 +36,17 @@ path.  It is intended for prototyping, when you already have classes to do what 
 as native modules apply - if your calls are long and async, then the costs of transforming the data are a smaller fraction.
 
 ## Things that work
-* Listing Dlls in the current directory
+* Listing dlls in the current directory
 * Loading managed assemblies (doesn't have to be .dll, loading Sharp.node has all the fun generated internals)
 * Call zero argument constructors
 * Calling methods where types can be converted
 
 Speaking of - type conversion (mostly inherited from v8sharp)
-** string
-** int
-** date -> datetime
-** arrays -> typed arrays and lists
-** object -> dictionary of string and objects, and objects with public properties.
+* string
+* int
+* date -> datetime
+* arrays -> typed arrays and lists
+* object -> dictionary of string and objects, and objects with public properties.
 
 ## What's next?
 From the previous list, there are many things which could be added to make the process a little more seamless.
