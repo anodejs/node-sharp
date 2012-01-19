@@ -56,9 +56,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="v8sharp">
       <UniqueIdentifier>{f19d441d-6676-4dcd-b8b1-f818a6dd9cfe}</UniqueIdentifier>
     </Filter>

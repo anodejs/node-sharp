@@ -44,7 +44,6 @@
     <IncludePath>C:\node-v0.6.6\deps\v8\include;c:\node-v0.6.6\deps\uv\include;c:\node-v0.6.6\src;$(IncludePath)</IncludePath>
     <LibraryPath>C:\node-v0.6.6\Debug;C:\node-v0.6.6\Debug\lib;$(LibraryPath)</LibraryPath>
     <TargetExt>.node</TargetExt>
-    <ReferencePath>$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -95,11 +94,6 @@
     <ClInclude Include="WrapAssembly.h" />
     <ClInclude Include="WrapBase.h" />
     <ClInclude Include="WrapInstance.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
