@@ -42,11 +42,13 @@ as native modules apply - if your calls are long and async, then the costs of tr
 * Calling methods where types can be converted
 
 Speaking of - type conversion (mostly inherited from v8sharp)
+
 * string
 * int
 * date -> datetime
 * arrays -> typed arrays and lists
 * object -> dictionary of string and objects, and objects with public properties.
+* returned objects are returned 
 
 ## What's next?
 From the previous list, there are many things which could be added to make the process a little more seamless.
