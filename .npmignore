@@ -1,0 +1,7 @@
+Debug
+*.log
+_Resharper.Sharp
+*.sdf
+*.suo
+*\bin\*
+*\obj\*

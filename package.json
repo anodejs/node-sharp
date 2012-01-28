@@ -1,0 +1,13 @@
+{
+"name" : "sharp",
+"version" : "0.1.0",
+"description" : "A CLI node extension to load c# dlls",
+"keywords" : ["C#", "CLI", "dot net", "nodejs"],
+"bugs" : { "url" : "http://github.com/anodejs/node-sharp/issues" },
+"private" : true,
+"author": {"name" : "Jett Jones"},
+"licenses": [{"type" : "MIT", "url" : "http://github.com/anodejs/node-sharp/LICENSE"}],
+"directories" : {"lib" : "./lib", "bin" : "./bin"},
+"main" : "./bin/Sharp.node",
+"repository" : {"type":"git", "url":"http://github.com/anodejs/node-sharp.git"}
+}
