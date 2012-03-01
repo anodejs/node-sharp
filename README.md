@@ -57,3 +57,5 @@ From the previous list, there are many things which could be added to make the p
 * Static methods
 * access to fields
 * overloaded methods (honestly, this is hard when you're not a compiler)
+
+* also playing with node-gyp and npm to get the build install to be more streamlined. 
