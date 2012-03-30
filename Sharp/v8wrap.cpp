@@ -1,8 +1,8 @@
 #include "v8wrap.h"
 #include "WrapInstance.h"
 
-v8::Handle<v8::Value> V8ObjectWrapper::Wrap(System::Object^ obj) 
-{  
+v8::Handle<v8::Value> V8ObjectWrapper::Wrap(System::Object^ obj)
+{
     if (obj == nullptr)
     {
         return v8::Null();
@@ -11,7 +11,7 @@ v8::Handle<v8::Value> V8ObjectWrapper::Wrap(System::Object^ obj)
     return WrapInstance::New(obj->GetType(), obj);
 }
 
-System::Object^ V8ObjectWrapper::Unwrap(v8::Handle<v8::Value> value) 
+System::Object^ V8ObjectWrapper::Unwrap(v8::Handle<v8::Value> value)
 {
     return WrapInstance::Unwrap(value);
 }

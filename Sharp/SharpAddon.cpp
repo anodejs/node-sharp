@@ -19,7 +19,7 @@ public:
     static void NODE_EXTERN Init(Handle<Object> target)
     {
         HandleScope scope;
-        
+
         target->Set(v8::String::NewSymbol("Sharp"), FunctionTemplate::New(SharpLibHelper::Instance)->GetFunction());
     }
 };

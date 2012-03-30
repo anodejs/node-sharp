@@ -8,7 +8,7 @@
 
 using namespace System;
 
-namespace v8sharp 
+namespace v8sharp
 {
 	public delegate Object^ V8Function(cli::array<Object^>^ args);
 

@@ -3,7 +3,6 @@
 #include "v8value.h"
 #include "Helpers.h"
 
-using namespace System::Text;
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
 using namespace v8;

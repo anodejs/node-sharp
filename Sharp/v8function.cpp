@@ -8,40 +8,40 @@
 
 v8::Handle<v8::Value> V8FunctionInvoker(const v8::Arguments& info);
 
-namespace v8sharp 
+namespace v8sharp
 {
-    ref class V8FunctionWrapper 
+    ref class V8FunctionWrapper
     {
     public:
-        V8FunctionWrapper(v8::Function* function) 
+        V8FunctionWrapper(v8::Function* function)
         {
             this->function = function;
         }
 
-        Object^ Invoke(cli::array<Object^>^ args) 
+        Object^ Invoke(cli::array<Object^>^ args)
         {
             v8::HandleScope handleScope;
 
             v8::Handle<v8::Function> functionHandle(this->function);
 
             int len = 0;
-            if (args != nullptr) 
+            if (args != nullptr)
             {
                 len = args->Length;
             }
 
             v8::Handle<v8::Value>* v8args = new v8::Handle<v8::Value>[len];
-            for (int i = 0; i < len; i++) 
+            for (int i = 0; i < len; i++)
             {
                 v8args[i] = V8Interop::ToV8(args[i]);
             }
 
-            try 
+            try
             {
                 v8::Local<v8::Value> result = functionHandle->Call(functionHandle, len, v8args);
                 return v8sharp::V8Interop::FromV8(result);
-            } 
-            finally 
+            }
+            finally
             {
                 delete v8args;
             }
@@ -51,18 +51,18 @@ namespace v8sharp
         v8::Function* function;
     };
 
-    Delegate^ V8FunctionHandler::CreateDelegate(v8::Function* function) 
+    Delegate^ V8FunctionHandler::CreateDelegate(v8::Function* function)
     {
         return CreateDelegate(function, V8Function::typeid);
     }
 
-    Delegate^ V8FunctionHandler::CreateDelegate(v8::Function* function, Type^ delegateType) 
+    Delegate^ V8FunctionHandler::CreateDelegate(v8::Function* function, Type^ delegateType)
     {
         V8FunctionWrapper^ functionWrapper = gcnew V8FunctionWrapper(function);
         return gcnew V8Function(functionWrapper, &V8FunctionWrapper::Invoke);
     }
 
-    v8::Handle<v8::Function> V8FunctionHandler::CreateFunction(Delegate^ function) 
+    v8::Handle<v8::Function> V8FunctionHandler::CreateFunction(Delegate^ function)
     {
         v8::HandleScope handleScope;
 
@@ -73,17 +73,17 @@ namespace v8sharp
     }
 }
 
-v8::Handle<v8::Value> V8FunctionInvoker(const v8::Arguments& info) 
+v8::Handle<v8::Value> V8FunctionInvoker(const v8::Arguments& info)
 {
     v8::HandleScope handleScope;
-    
+
     V8ExternalWrapper* external = (V8ExternalWrapper*)v8::Handle<v8::External>::Cast(info.Data())->Value();
     Object^ obj = external->Object;
 
     int len = info.Length();
     cli::array<Object^>^ args = gcnew cli::array<Object^>(len);
     cli::array<Type^>^ argTypes = gcnew cli::array<Type^>(len);
-    for (int i = 0; i < len; i++) 
+    for (int i = 0; i < len; i++)
     {
         Object^ arg = v8sharp::V8Interop::FromV8(info[i]);
         args[i] = arg;

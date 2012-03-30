@@ -5,13 +5,13 @@
 #include <v8.h>
 #include <vcclr.h>
 
-class V8ObjectWrapper 
+class V8ObjectWrapper
 {
 public:
 
 	static v8::Handle<v8::Value> Wrap(System::Object^ obj);
 
 	static System::Object^ Unwrap(v8::Handle<v8::Value> value);
-    
+
     static bool IsObjectWrapper(v8::Handle<v8::Value> value);
 };

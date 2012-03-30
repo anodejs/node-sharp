@@ -5,7 +5,7 @@
 #include <vcclr.h>
 
 
-class WrapBase : node::ObjectWrap 
+class WrapBase : node::ObjectWrap
 {
 private:
     gcroot<System::String^> _searchBase;

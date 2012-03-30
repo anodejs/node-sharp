@@ -8,9 +8,9 @@
 
 using namespace System;
 
-namespace v8sharp 
+namespace v8sharp
 {
-    ref class V8Interop sealed 
+    ref class V8Interop sealed
     {
     public:
         static System::Object^ FromV8(v8::Handle<v8::Value> value);

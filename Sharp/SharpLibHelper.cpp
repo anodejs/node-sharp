@@ -14,7 +14,7 @@ using namespace v8;
 System::Reflection::Assembly ^OnAssemblyResolve(System::Object ^obj, System::ResolveEventArgs ^args)
 {
     System::String ^path = System::Environment::CurrentDirectory;
-    
+
     Console::WriteLine("Resolving an assembly..." + path);
 
     array<System::String^>^ assemblies =

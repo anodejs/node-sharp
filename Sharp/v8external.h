@@ -7,7 +7,7 @@
 #include <v8.h>
 #include <vcclr.h>
 
-class V8ExternalWrapper 
+class V8ExternalWrapper
 {
 public:
 	V8ExternalWrapper() {}

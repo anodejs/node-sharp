@@ -12,7 +12,7 @@ private:
     WrapAssembly(System::Reflection::Assembly^ a);
 
 public:
-    
+
     static v8::Handle<v8::Value> AssemblyName(const v8::Arguments& args);
     static v8::Handle<v8::Value> ListTypes(const v8::Arguments& args);
     static v8::Handle<v8::Value> CreateInstance(const v8::Arguments& args);

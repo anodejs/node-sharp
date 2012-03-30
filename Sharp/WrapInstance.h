@@ -37,13 +37,13 @@ private:
 public:
 
     static v8::Handle<v8::Value> GetClassName(const v8::Arguments& args);
-    
+
     static v8::Handle<v8::Value> ListMethods(const v8::Arguments& args);
 
     static v8::Handle<v8::Value> CallMethod(const v8::Arguments& args);
-    
+
     static v8::Handle<v8::Value> Async(const v8::Arguments& args);
-    
+
     static v8::Handle<v8::Value> New(System::Type^ t, System::Object^ o);
     static bool IsWrapped(v8::Handle<v8::Value> value);
     static System::Object^ Unwrap(v8::Handle<v8::Value> value);
@@ -53,6 +53,6 @@ private:
     static void StartAsync(uv_work_t* req);
 
     // this runs on the main thread and can call back into the JavaScript
-    static void AfterAsync(uv_work_t *req); 
+    static void AfterAsync(uv_work_t *req);
 
 };

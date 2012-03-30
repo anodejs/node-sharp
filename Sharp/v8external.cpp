@@ -5,7 +5,7 @@
 #include "v8external.h"
 #include <node.h>
 
-V8ExternalWrapper::~V8ExternalWrapper() 
+V8ExternalWrapper::~V8ExternalWrapper()
 {
 	/*if (this->Object != nullptr && System::IDisposable::typeid->IsAssignableFrom(this->Object->GetType()) {
 		safe_cast<System::IDisposable^>(this->Object)->Dispose();
@@ -13,14 +13,14 @@ V8ExternalWrapper::~V8ExternalWrapper()
 	}*/
 }
 
-V8ExternalWrapper* V8ExternalWrapper::Create(gcroot<System::Object^> obj) 
+V8ExternalWrapper* V8ExternalWrapper::Create(gcroot<System::Object^> obj)
 {
 	V8ExternalWrapper* wrapper = new V8ExternalWrapper();
 	wrapper->Object = obj;
 	return wrapper;
 }
 
-V8ExternalWrapper* V8ExternalWrapper::Unwrap(v8::Handle<v8::Value> value) 
+V8ExternalWrapper* V8ExternalWrapper::Unwrap(v8::Handle<v8::Value> value)
 {
 	v8::External* external = v8::External::Cast(*value);
 	V8ExternalWrapper* wrapper = static_cast<V8ExternalWrapper*>(external->Value());

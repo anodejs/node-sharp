@@ -8,22 +8,22 @@ using namespace System::Collections::Generic;
 Object^ CreateObject(Dictionary<String^, Object^>^ dictionary, Type^ type)
 {
     ConstructorInfo^ constructor = type->GetConstructor(gcnew array<Type^>{});
-    
+
     if (constructor == nullptr)
     {
         throw gcnew Exception("Constructing objects requires a zero arg constructor.");
     }
 
     Object^ o = constructor->Invoke(gcnew array<Object^>{});
-            
+
     for each(String^ key in dictionary->Keys)
     {
         Object^ value = dictionary[key];
-        
+
         // find a field
         FieldInfo^ f = type->GetField(key);
         PropertyInfo^ p = type->GetProperty(key);
-                
+
         if (f != nullptr)
         {
             Object^ adjusted = MatchType::AdjustObject(value, f->FieldType);
@@ -31,7 +31,7 @@ Object^ CreateObject(Dictionary<String^, Object^>^ dictionary, Type^ type)
         }
         else if (p != nullptr)
         {
-            p->SetValue(o, MatchType::AdjustObject(value, p->PropertyType), nullptr); 
+            p->SetValue(o, MatchType::AdjustObject(value, p->PropertyType), nullptr);
         }
         else
         {
@@ -53,7 +53,7 @@ Object^ CreateArray(Array^ input, Type^ t)
     }
 
     Array^ result = (Array^)c->Invoke(gcnew array<Object^> {input->Length});
-            
+
     int index = 0;
     for each(Object^ item in input)
     {
@@ -83,8 +83,8 @@ Object^ CreateList(Array^ input, Type^ t)
         Object^ converted = MatchType::AdjustObject(item, listType);
         addMethod->Invoke(result, gcnew array<Object^>{converted});
     }
-            
-    return result; 
+
+    return result;
 }
 
 array<Object^>^ MatchType::AdjustArguments(array<Object^>^ paramList, array<ParameterInfo^>^ paramTypes)
@@ -95,7 +95,7 @@ array<Object^>^ MatchType::AdjustArguments(array<Object^>^ paramList, array<Para
         Object^ obj = (paramList->Length > i) ? paramList[i] : nullptr;
         Type^ paramType = paramTypes[i]->ParameterType;
         Object^ adjusted = MatchType::AdjustObject(obj, paramType);
-        
+
         result->Add(adjusted);
     }
 
@@ -115,7 +115,7 @@ Object^ MatchType::AdjustObject(Object^ obj, Type^ paramType)
         // aready good.
         return obj;
     }
-            
+
     // case 1 - generated a dictionary.
     if (t->IsAssignableFrom(DictionaryType))
     {
@@ -139,7 +139,7 @@ Object^ MatchType::AdjustObject(Object^ obj, Type^ paramType)
         // some more complicated vector? give up
         throw gcnew Exception(String::Format("Could not convert array types {0} to {1}", t, paramType));
     }
-            
+
     // couldn't figure out a good conversion, give up.
     return obj;
 }

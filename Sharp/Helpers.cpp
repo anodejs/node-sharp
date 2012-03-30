@@ -30,8 +30,8 @@ array<System::Object^>^ Helpers::ConvertArguments(const v8::Arguments& args, int
             argList->Add(v8sharp::V8Interop::FromV8(args[i]));
         }
     }
-    
+
     array<System::Object^>^ result = MatchType::AdjustArguments(argList->ToArray(), types);
-    
+
     return result;
 }

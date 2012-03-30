@@ -20,7 +20,7 @@ Handle<Value> WrapBase::ListAssemblies(const v8::Arguments& args)
 
     DirectoryInfo^ d = gcnew DirectoryInfo(self->_searchBase);
 
-    List<System::String^>^ names = gcnew List<System::String^>(); 
+    List<System::String^>^ names = gcnew List<System::String^>();
     for each(FileInfo^ f in d->EnumerateFiles("*.dll"))
     {
         names->Add(f->Name);
@@ -35,14 +35,14 @@ Handle<Value> WrapBase::LoadAssembly(const v8::Arguments& args)
         return ThrowException(v8::Exception::TypeError(
             v8::String::New("First argument must be a string, for dll name.")));
     }
-    
+
     HandleScope scope;
     WrapBase* self = node::ObjectWrap::Unwrap<WrapBase>(args.This());
-    
+
     System::String^ path =  safe_cast<System::String^>(v8sharp::V8Interop::FromV8(args[0]) );
 
     try
-    {   
+    {
         DirectoryInfo^ d = gcnew DirectoryInfo(self->_searchBase);
         array<FileInfo^>^ files = d->GetFiles(path);
 
