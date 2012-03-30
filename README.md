@@ -28,6 +28,18 @@ oc.async('ReturnObject', function(err, data){
 
 There is also a .methods() call to return a list of callable method names.  
 
+You can call constructors and access static methods now too.
+
+```javascript
+var constructed = stub.new('StubClass.Constructor', 1, "string");
+```
+
+```javascript
+var st = stub.static('StubClass.Static');
+st.methods(); // list all static methods
+var val = st.call('GetString');
+```
+
 ## What is it for?
 Some of the linked resources from node.net, and research on the subject will tell you that C++/CLI has a performance
 hit in node over native javascript.  This add-on uses System.Reflection for most operations, and additional marshaling
@@ -53,9 +65,6 @@ Speaking of - type conversion (mostly inherited from v8sharp)
 ## What's next?
 From the previous list, there are many things which could be added to make the process a little more seamless.
 
-* Allow constructor arguments
-* Static methods
 * access to fields
 * overloaded methods (honestly, this is hard when you're not a compiler)
-
 * also playing with node-gyp and npm to get the build install to be more streamlined. 
