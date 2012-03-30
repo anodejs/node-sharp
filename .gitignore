@@ -1,12 +1,13 @@
 Debug
 *.log
-_Resharper.Sharp
+_Resharper.*
 .node-gyp
 bindings.sln*
 ipch
 Release
 *\ipch
 *.sdf
+Sharp/Sharp.opensdf
 *.suo
 *\bin\*
 *\obj\*

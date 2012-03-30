@@ -26,3 +26,9 @@ console.log(str);
 
 str = stub.new('StubClass.Constructor', oc.call('ReturnObject')).call('ToString')
 console.log(str);
+
+// calling static methods
+var ss = stub.static('StubClass.Static')
+console.log('Static1: ' + ss.call('GetInt'));
+
+console.log('Static2: '+ ss.call('Instance').call('InstanceString'));

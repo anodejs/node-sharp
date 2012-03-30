@@ -30,6 +30,7 @@ class WrapInstance : node::ObjectWrap
 private:
     gcroot<System::Object^> _instance;
     gcroot<System::Type^> _type;
+    bool _isStatic;
 
     WrapInstance(System::Type^ t, System::Object^ i);
 

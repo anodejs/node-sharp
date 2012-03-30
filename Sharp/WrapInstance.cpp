@@ -8,7 +8,7 @@ using namespace System::Reflection;
 using namespace v8;
 
 Handle<Value> WrapInstance::New(System::Type^ t, System::Object^ o)
-{   
+{
     HandleScope scope;
 
     Local<ObjectTemplate> oTemplate = ObjectTemplate::New();
@@ -22,14 +22,14 @@ Handle<Value> WrapInstance::New(System::Type^ t, System::Object^ o)
     result->Set(v8::String::NewSymbol("methods"), FunctionTemplate::New(ListMethods)->GetFunction() );
     result->Set(v8::String::NewSymbol("call"), FunctionTemplate::New(CallMethod)->GetFunction() );
     result->Set(v8::String::NewSymbol("async"), FunctionTemplate::New(Async)->GetFunction() );
-        
+
     result->SetHiddenValue(v8::String::NewSymbol("__wrapper"), v8::Boolean::New(true));
 
     // Debug code for checking how the hidden values might work.
     //Handle<v8::Value> val1 = result->GetHiddenValue(v8::String::NewSymbol("__wrapper"));
     //Handle<v8::Value> val2 = result->GetHiddenValue(v8::String::NewSymbol("__bogus"));
 
-    //bool null1 = val1.IsEmpty(); 
+    //bool null1 = val1.IsEmpty();
     //bool null2 = val2.IsEmpty();
 
     return scope.Close(result);
@@ -63,30 +63,34 @@ WrapInstance::WrapInstance(System::Type^ t, System::Object^ i)
 {
     _type = t;
     _instance = i;
+    _isStatic = i == nullptr;
 }
 
 Handle<Value> WrapInstance::GetClassName(const Arguments& args)
 {
     HandleScope scope;
     WrapInstance* self = node::ObjectWrap::Unwrap<WrapInstance>(args.This());
-        
+
     Handle<Value> result = v8sharp::V8Interop::ToV8(self->_type->Name);
 
     return scope.Close(result);
 }
-    
+
 Handle<Value> WrapInstance::ListMethods(const Arguments& args)
 {
     HandleScope scope;
     WrapInstance* self = node::ObjectWrap::Unwrap<WrapInstance>(args.This());
-        
-    List<System::String^>^ methods = gcnew List<System::String^>(); 
-        
-    for each(MethodInfo^ m in self->_type->GetMethods())
+
+    List<System::String^>^ methods = gcnew List<System::String^>();
+
+    BindingFlags flags = BindingFlags::Public | BindingFlags::Instance;
+    flags = (self->_isStatic) ? BindingFlags::Public | BindingFlags::Static : flags;
+
+    for each(MethodInfo^ m in self->_type->GetMethods(flags))
     {
         methods->Add(m->Name);
     }
-        
+
     Handle<Value> result = v8sharp::V8Interop::ToV8(methods->ToArray());
 
     return scope.Close(result);
@@ -112,13 +116,13 @@ Handle<Value> WrapInstance::CallMethod(const Arguments& args)
         {
             throw gcnew System::NotSupportedException(System::String::Format("Method {0} not found", path));
         }
-        
+
         array<System::Object^>^ argList = Helpers::ConvertArguments(args, 1, m->GetParameters());
 
         System::Object^ r = m->Invoke(self->_instance, argList);
-                    
+
         Handle<Value> result = v8sharp::V8Interop::ToV8(r);
-        
+
         return scope.Close(result);
     }
     catch(System::Exception^ e)
@@ -129,7 +133,7 @@ Handle<Value> WrapInstance::CallMethod(const Arguments& args)
         return ThrowException(v8::Exception::Error(err));
     }
 }
-    
+
 Handle<Value> WrapInstance::Async(const Arguments& args)
 {
     HandleScope scope;
@@ -168,7 +172,7 @@ Handle<Value> WrapInstance::Async(const Arguments& args)
     {
         v8::Handle<v8::Value> str =  v8sharp::V8Interop::ToV8(Helpers::GetError(e));
         v8::Handle<v8::String> err = v8::Handle<v8::String>::Cast(str);
-            
+
         return ThrowException(v8::Exception::Error(err));
     }
 
@@ -178,7 +182,7 @@ Handle<Value> WrapInstance::Async(const Arguments& args)
 
     return Undefined();
 }
-    
+
 // this runs on the worker thread and should not callback or interact with node/v8 in any way
 void WrapInstance::StartAsync(uv_work_t* req)
 {
@@ -187,7 +191,7 @@ void WrapInstance::StartAsync(uv_work_t* req)
     try
     {
         baton->error = false;
-        baton->result = baton->method->Invoke(baton->caller->_instance, baton->args); 
+        baton->result = baton->method->Invoke(baton->caller->_instance, baton->args);
     }
     catch(System::Exception^ e)
     {
@@ -202,7 +206,7 @@ void WrapInstance::AfterAsync(uv_work_t *req)
     HandleScope scope;
     Baton* baton = static_cast<Baton*>(req->data);
 
-    if (baton->error) 
+    if (baton->error)
     {
         Handle<v8::Value> str =  v8sharp::V8Interop::ToV8(baton->error_message);
         Handle<v8::String> err = Handle<v8::String>::Cast(str);
@@ -215,9 +219,9 @@ void WrapInstance::AfterAsync(uv_work_t *req)
 
         if (try_catch.HasCaught()) {
             node::FatalException(try_catch);
-        }        
-    } 
-    else 
+        }
+    }
+    else
     {
         const unsigned argc = 2;
         Local<Value> argv[argc] = {
