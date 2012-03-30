@@ -71,6 +71,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="MatchType.cpp" />
     <ClCompile Include="SharpAddon.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
@@ -85,6 +86,7 @@
     <ClCompile Include="WrapInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Helpers.h" />
     <ClInclude Include="MatchType.h" />
     <ClInclude Include="SharpLibHelper.h" />
     <ClInclude Include="v8external.h" />

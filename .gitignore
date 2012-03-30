@@ -1,6 +1,11 @@
 Debug
 *.log
 _Resharper.Sharp
+.node-gyp
+bindings.sln*
+ipch
+Release
+*\ipch
 *.sdf
 *.suo
 *\bin\*

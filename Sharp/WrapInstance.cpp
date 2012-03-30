@@ -1,26 +1,11 @@
 #include "WrapInstance.h"
 #include "v8value.h"
 #include "MatchType.h"
+#include "Helpers.h"
 
 using namespace System::Collections::Generic;
 using namespace System::Reflection;
 using namespace v8;
-
-array<System::Object^>^ ConvertArguments(const Arguments& args, int startIndex, MethodInfo^ m)
-{
-    List<System::Object^>^ argList = gcnew List<System::Object^>();
-    if (args.Length() > startIndex)
-    {
-        for(int i=startIndex; i < args.Length(); i++)
-        {
-            argList->Add(v8sharp::V8Interop::FromV8(args[i]));
-        }
-    }
-    
-    array<System::Object^>^ result = MatchType::AdjustArguments(argList->ToArray(), m->GetParameters());
-    
-    return result;
-}
 
 Handle<Value> WrapInstance::New(System::Type^ t, System::Object^ o)
 {   
@@ -113,7 +98,7 @@ Handle<Value> WrapInstance::CallMethod(const Arguments& args)
         return ThrowException(v8::Exception::TypeError(
             v8::String::New("First argument must be a string, for method name.")));
     }
-        
+
     System::String^ path =  safe_cast<System::String^>(v8sharp::V8Interop::FromV8(args[0]));
 
     HandleScope scope;
@@ -128,7 +113,7 @@ Handle<Value> WrapInstance::CallMethod(const Arguments& args)
             throw gcnew System::NotSupportedException(System::String::Format("Method {0} not found", path));
         }
         
-        array<System::Object^>^ argList = ConvertArguments(args, 1, m);
+        array<System::Object^>^ argList = Helpers::ConvertArguments(args, 1, m->GetParameters());
 
         System::Object^ r = m->Invoke(self->_instance, argList);
                     
@@ -138,9 +123,9 @@ Handle<Value> WrapInstance::CallMethod(const Arguments& args)
     }
     catch(System::Exception^ e)
     {
-        v8::Handle<v8::Value> str =  v8sharp::V8Interop::ToV8(e->Message);
+        v8::Handle<v8::Value> str =  v8sharp::V8Interop::ToV8(Helpers::GetError(e));
         v8::Handle<v8::String> err = v8::Handle<v8::String>::Cast(str);
-            
+
         return ThrowException(v8::Exception::Error(err));
     }
 }
@@ -176,12 +161,12 @@ Handle<Value> WrapInstance::Async(const Arguments& args)
         MethodInfo^ m = self->_type->GetMethod(safe_cast<System::String^>(v8sharp::V8Interop::FromV8(path)));
         baton->method = m;
 
-        array<System::Object^>^ argList = ConvertArguments(args, 2, m);
+        array<System::Object^>^ argList = Helpers::ConvertArguments(args, 2, m->GetParameters());
         baton->args = argList;
     }
     catch(System::Exception^ e)
     {
-        v8::Handle<v8::Value> str =  v8sharp::V8Interop::ToV8(e->Message);
+        v8::Handle<v8::Value> str =  v8sharp::V8Interop::ToV8(Helpers::GetError(e));
         v8::Handle<v8::String> err = v8::Handle<v8::String>::Cast(str);
             
         return ThrowException(v8::Exception::Error(err));
@@ -207,7 +192,7 @@ void WrapInstance::StartAsync(uv_work_t* req)
     catch(System::Exception^ e)
     {
         baton->error = true;
-        baton->error_message = e->Message;
+        baton->error_message = Helpers::GetError(e);
     }
 }
 

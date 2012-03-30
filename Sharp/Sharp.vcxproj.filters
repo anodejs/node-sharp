@@ -27,6 +27,9 @@
     <ClCompile Include="WrapBase.cpp">
       <Filter>wrap</Filter>
     </ClCompile>
+    <ClCompile Include="Helpers.cpp">
+      <Filter>wrap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="v8wrap.h">
@@ -52,6 +55,9 @@
     </ClInclude>
     <ClInclude Include="SharpLibHelper.h" />
     <ClInclude Include="WrapBase.h">
+      <Filter>wrap</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers.h">
       <Filter>wrap</Filter>
     </ClInclude>
   </ItemGroup>

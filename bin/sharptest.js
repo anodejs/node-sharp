@@ -19,3 +19,10 @@ oc.async('ReturnList', function(e, d){
 var ic = stub.new('StubClass.Input');
 
 console.log('Object: ' + ic.call('AcceptObject', oc.call('ReturnObject')));
+
+// calling a constructor with parameters
+var str = stub.new('StubClass.Constructor', 4, 'string', [1,2,3]).call('ToString')
+console.log(str);
+
+str = stub.new('StubClass.Constructor', oc.call('ReturnObject')).call('ToString')
+console.log(str);
