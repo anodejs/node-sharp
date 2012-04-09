@@ -116,3 +116,20 @@ repeat(function() {
                    }
                }); 
 }, 1000);
+
+// C# comparison numbers come from the SharpTime solution
+// for comparison again - C# only reflection (aka. time without type coersion)
+// int time:    // 11ms / 10000
+// string time: // 13ms / 10000
+// array time:  // 12ms / 10000
+// list time:   // 19ms / 10000
+// object time: // 14ms / 10000
+
+
+// for comparison again - C# without reflection (to compare with pure JS)
+// int time:    // 6ms / 1,000,000
+// string time: // 6ms / 1,000,000
+// array time:  // 549ms / 1,000,000
+// list time:   // 318ms / 1,000,000
+// object time: // 15ms / 1,000,000
+
